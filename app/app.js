@@ -8,6 +8,7 @@ const facultyRoutes = require('../api/routes/faculty');
 const adminUserRoutes = require('../api/routes/adminUser');
 
 
+
 const app = express();
 app.use(morgan('dev'));
 connectDB();
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/api/student', studentRoutes);
 app.use('/api/faculty', facultyRoutes);
-app.use('/api/adminUser', adminUserRoutes);
+app.use('/api/adminuser', adminUserRoutes);
 // app.use((req, res, next) => {
 //     res.status(200).json({
 //         msg: "hello World"
@@ -33,11 +34,11 @@ app.use('/api/adminUser', adminUserRoutes);
 
 // Error Handling
 
-app.use(async (req, res, next) => {
+app.use('', async (req, res, next) => {
 
-    res.status(404).json({
+    res.status(500).json({
         success: false,
-        error: "bad response"
+        error: "Bad Respone Enter Url is Wrong!! Please Check "
     });
 });
 

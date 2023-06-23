@@ -20,11 +20,10 @@ dotenv.config({
 
 
 router.post('/signup', async (req, res, next) => {
-    const { firstName, lastName, email, phone, password, conformPassword } = req.body;
+    const { firstName, lastName, email, phone, password, conformPassword, role, gender } = req.body;
     try {
         const existUser = await adminUesr.findOne({
             email: email,
-            phone: phone,
 
         });
 
@@ -57,9 +56,11 @@ router.post('/signup', async (req, res, next) => {
                         _id: new mongoose.Types.ObjectId,
                         firstName: firstName,
                         lastName: lastName,
-                        email: email,
+                        email: email.toLowerCase(),
                         phone: phone,
-                        password: hash
+                        password: hash,
+                        role: role,
+                        gender: gender
                     });
                     // console.log("new user", newAdminUser);
 
@@ -99,12 +100,13 @@ router.post('/signup', async (req, res, next) => {
 
 
 router.post('/signin', async (req, res, next) => {
-    const { firstName, lastName, email, phone, password, conformPassword } = req.body;
+    const { firstName, lastName, email, phone, password, role, gender } = req.body;
     const name = firstName + ' ' + lastName;
+    const smallEmail = email.toLowerCase();
     try {
         const existUser = await adminUesr.findOne({
-            email: email,
-
+            email: smallEmail
+// 
         });
 
         if (!existUser) {
@@ -131,6 +133,8 @@ router.post('/signin', async (req, res, next) => {
                             name: `${existUser.firstName} ${existUser.lastName}`,
                             email: existUser.email,
                             phone: existUser.phone,
+                            role: existUser.role,
+                            gender: existUser.gender
                         }
                     };
                     jwt.sign(payload, process.env.JWTTOKENKEY, {

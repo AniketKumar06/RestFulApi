@@ -2,6 +2,7 @@ const express = require('express');
 const Faculty = require('../models/faculty');
 const router = express.Router();
 const mongoose = require('mongoose');
+const adminAuth = require('../middleware/adminAuthAccess')
 
 
 
@@ -11,7 +12,7 @@ const mongoose = require('mongoose');
  * Function : Admin
  */
 
-router.get('/get', async (req, res, next) => {
+router.get('/get', adminAuth , async (req, res, next) => {
     try {
         const allFaculty = await Faculty.find({});
         const len = allFaculty.length;
@@ -42,7 +43,7 @@ router.get('/get', async (req, res, next) => {
  * Method : GET
  */
 
-router.get('/getEmail', async (req, res, next) => {
+router.get('/getEmail', adminAuth , async (req, res, next) => {
     try {
         let existFaculty = await Faculty.findOne({ email: req.body.email });
         if (!existFaculty) {
@@ -74,7 +75,7 @@ router.get('/getEmail', async (req, res, next) => {
  * Method : POST
  */
 
-router.post('/post', async (req, res, next) => {
+router.post('/post', adminAuth, async (req, res, next) => {
 
     try {
 
@@ -111,7 +112,7 @@ router.post('/post', async (req, res, next) => {
  */
 
 
-router.put('/update/:id', async (req, res, next) => {
+router.put('/update/:id', adminAuth, async (req, res, next) => {
     try {
         const existFaculty = await Faculty.findById(req.params.id);
 
@@ -148,7 +149,7 @@ router.put('/update/:id', async (req, res, next) => {
  * Ation : Delete Single User
  */
 
-router.delete('/deleteEmail', async (req, res, next) => {
+router.delete('/deleteEmail', adminAuth, async (req, res, next) => {
     try {
         const existFaculty = await Faculty.findOne({
             email: req.body.email
@@ -185,7 +186,7 @@ router.delete('/deleteEmail', async (req, res, next) => {
  */
 
 
-router.delete('/delete', async (req, res, next) => {
+router.delete('/delete', adminAuth,async (req, res, next) => {
     try {
         const allFaculty = await Faculty.find({});
         console.log(allFaculty);

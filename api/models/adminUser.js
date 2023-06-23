@@ -22,6 +22,14 @@ const adminUserSchma = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        default: 'admin',
+    },
+    gender: {
+        type: String,
+        require: true
     }
 });
 module.exports = mongoose.model("AdminUser", adminUserSchma)
